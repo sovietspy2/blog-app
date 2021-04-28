@@ -35,7 +35,5 @@ graphiql:
     props:
         resources:
 
-        variables:
-            editorTheme: "solarized light"
     headers:
         Authorization: "Bearer <your-token>"

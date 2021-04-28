@@ -18,6 +18,6 @@ public class Blog {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "blog")
     private List<Post> posts;
 }

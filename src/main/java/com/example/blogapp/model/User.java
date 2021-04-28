@@ -24,6 +24,6 @@ public class User {
 
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Post> posts;
 }

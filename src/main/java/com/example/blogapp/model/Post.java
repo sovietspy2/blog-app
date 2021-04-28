@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,11 +35,14 @@ public class Post {
     private String text;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "post")
+    @Fetch(FetchMode.JOIN)
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne
+    @JoinColumn(name = "blog_id")
     private Blog blog;
 }
