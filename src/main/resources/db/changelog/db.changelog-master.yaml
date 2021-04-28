@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/init.sql
+  - include:
+      file: db/changelog/user-table.sql
+  - include:
+      file: db/changelog/create-table-blog-comment-post.sql
+  - include:
+      file: db/changelog/create-blog-records.sql
+  - include:
+      file: db/changelog/bloguser_post-join-table.sql

@@ -1,0 +1,70 @@
+schema {
+    query: Query,
+    mutation: Mutation,
+}
+
+type Query{
+    # Fetch All Users
+    #findAllUsers:[User],
+    #findUserByName(name:String): User
+    getPosts(page: Int!, pageSize: Int!): [Post]
+}
+
+type Mutation {
+     #Update the user address
+    #updateUserAddress(userId:Int,address:String): User
+    createUser(name:String!,email:String!): User
+    createPost(tile: String!, text: String, user: UserInput, blog: BlogInput): Post
+    createComment(text: String, user: UserInput, post: PostInput): Comment
+}
+
+#type Comment {
+#    id: ID!,
+#    userId: Int,
+#    postId: Int,
+#    text: String
+#}
+
+type Post {
+    id: ID!
+    title: String,
+    text: String,
+    user: User,
+    comments: [Comment],
+    blog: Blog
+}
+
+type Blog {
+    id: ID!,
+    name: String,
+}
+
+type Comment {
+    id: ID!,
+    text: String,
+    user: User,
+    post: Post
+}
+
+type User {
+    id : ID!,
+    name :String,
+    email :String,
+    posts: [Post]
+}
+
+input UserInput {
+    id: Int,
+}
+
+input BlogInput {
+    id: Int,
+}
+
+input PostInput {
+    id: Int
+}
+
+input CommentInput {
+    text: String
+}

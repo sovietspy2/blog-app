@@ -1,0 +1,41 @@
+logging:
+    level:
+        org:
+            springframework: ERROR
+server:
+    port: 9999
+spring:
+    datasource:
+        password: ${password}
+        platform: postgres
+        url: ${url}
+        username: ${user}
+    jpa:
+        hibernate:
+            ddl-auto: validate
+        properties:
+            hibernate:
+                format_sql: true
+        show-sql: true
+
+graphiql:
+    mapping: /graphiql
+    endpoint:
+        graphql: /graphql
+        subscriptions: /subscriptions
+    subscriptions:
+        timeout: 30
+        reconnect: false
+    basePath: /
+    enabled: true
+    pageTitle: GraphiQL
+    cdn:
+        enabled: false
+        version: latest
+    props:
+        resources:
+
+        variables:
+            editorTheme: "solarized light"
+    headers:
+        Authorization: "Bearer <your-token>"
