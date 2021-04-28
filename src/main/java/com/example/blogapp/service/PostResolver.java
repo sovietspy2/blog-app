@@ -29,8 +29,8 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
         return postRepository.save(Post.builder()
                 .title(title)
                 .text(text)
-                //.blog(blog)
-                //.user(user)
+                .blog(blog)
+                .user(user)
                 .build());
     }
 

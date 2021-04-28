@@ -24,6 +24,7 @@ public class Comment {
 
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinTable(name="post_comments", joinColumns={@JoinColumn(name="comments_id")},inverseJoinColumns={@JoinColumn(name="post_id")} )
     private Post post;
 }

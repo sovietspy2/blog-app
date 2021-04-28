@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -18,7 +20,8 @@ import java.util.List;
 @NamedEntityGraph(name = "Post.comments",
         attributeNodes = {
             @NamedAttributeNode("comments"),
-            //@NamedAttributeNode("user")
+            @NamedAttributeNode("user"),
+            @NamedAttributeNode("blog")
         }
 )
 public class Post {
@@ -34,7 +37,7 @@ public class Post {
     @ManyToOne
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne
