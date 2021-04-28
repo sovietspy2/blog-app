@@ -12,6 +12,6 @@ public interface CommentRepository extends CrudRepository<Comment,Integer> {
 
     Optional<Comment> findByPost(Post post);
 
-    @EntityGraph(attributePaths = {"comments"})
+    //@EntityGraph(attributePaths = {"comments"})
     List<Comment> findManyByPost(Post post);
 }

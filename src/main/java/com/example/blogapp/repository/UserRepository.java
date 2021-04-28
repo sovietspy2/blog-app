@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-    @EntityGraph(attributePaths = {"user"})
+    //@EntityGraph(attributePaths = {"user"})
     User findByPostsContains(Post post);
 
 }

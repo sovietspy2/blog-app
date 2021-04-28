@@ -25,6 +25,10 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
         return postRepository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
+    public Post getPost(Integer postId) {
+        return postRepository.findById(postId).orElseGet(Post::new);
+    }
+
     public Post createPost(String title, String text, User user, Blog blog) {
         return postRepository.save(Post.builder()
                 .title(title)
