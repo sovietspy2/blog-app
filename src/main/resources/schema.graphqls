@@ -16,7 +16,7 @@ type Mutation {
     createUser(name:String!,email:String!): User
     createPost(tile: String!, text: String, user: UserInput, blog: BlogInput): Post
     createComment(text: String, user: UserInput, post: PostInput): Comment
-    uploadFile(files: [Upload!]!): Boolean
+    uploadFile(files: [Upload!]!, postId: Int!): Boolean
 }
 
 
@@ -31,7 +31,8 @@ type Post {
 }
 
 type File {
-    filename: String
+    filename: String,
+    content: String,
 }
 
 type Blog {

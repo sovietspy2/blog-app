@@ -5,4 +5,5 @@ databaseChangeLog:
       file: db/changelog/create-blog-records.sql
   - include:
       file: db/changelog/create-file-table.sql
-
+  - include:
+      file: db/changelog/fileupload-alter-table.sql

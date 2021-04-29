@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Part;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 @Service
@@ -23,8 +25,6 @@ import java.util.List;
 public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
 
     private final PostRepository postRepository;
-
-    private final FileUploadRepository fileUploadRepository;
 
     public List<Post> getPosts(Integer page, Integer pageSize) {
         return postRepository.findAll(PageRequest.of(page, pageSize)).getContent();
@@ -41,29 +41,6 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
                 .blog(blog)
                 .user(user)
                 .build());
-    }
-
-    public boolean uploadFile(List<Part> files) throws IOException {
-
-        fileUploadRepository.findById(1);
-
-        Post testPost = postRepository.findById(1).get();
-
-        for (Part part: files) {
-
-            FileUpload fileUpload = FileUpload.builder()
-                    .filename("test.txt")
-                    .post(testPost)
-                    .ctype(part.getContentType())
-                    .content(IOUtils.toByteArray(part.getInputStream()))
-                    .build();
-
-            fileUploadRepository.save(fileUpload);
-
-
-        }
-
-        return true;
     }
 
 

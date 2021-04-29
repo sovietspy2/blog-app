@@ -24,9 +24,7 @@ public class FileUpload {
 
     private String filename;
 
-    @Lob
-    @Type(type = "org.hibernate.type.BinaryType")
-    byte[] content;
+    String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id")
