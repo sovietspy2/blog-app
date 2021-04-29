@@ -1,9 +1,6 @@
 package com.example.blogapp.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -23,12 +20,15 @@ import java.util.Set;
             @NamedAttributeNode("comments"),
             @NamedAttributeNode("user"),
             @NamedAttributeNode("blog"),
+            @NamedAttributeNode("files"),
         }
 )
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Integer id;
 
     private String title;
@@ -40,14 +40,13 @@ public class Post {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
-    @Fetch(FetchMode.JOIN)
-    private List<Comment> comments = new ArrayList<>();
+    private Set<Comment> comments;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
-    @OneToMany(mappedBy = "post")
-    @Fetch(FetchMode.SELECT)
-    private List<FileUpload> files;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    private Set<FileUpload> files;
+
 }

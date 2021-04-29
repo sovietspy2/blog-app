@@ -17,15 +17,15 @@ import java.util.List;
 public class CommentResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
 
     private final CommentRepository commentRepository;
-
-    public Comment findCommentByPost(Post post) {
-        return commentRepository.findByPost(post).orElseGet(Comment::new);
-    }
-
-    public List<Comment> findCommentsByPost(Post post) {
-        return commentRepository.findManyByPost(post);
-    }
-
+//
+//    public Comment findCommentByPost(Post post) {
+//        return commentRepository.findByPost(post).orElseGet(Comment::new);
+//    }
+//
+//    public List<Comment> findCommentsByPost(Post post) {
+//        return commentRepository.findManyByPost(post);
+//    }
+//
     public Comment createComment(String text, User user, Post post) {
         return commentRepository.save(Comment.builder().text(text).user(user).post(post).build());
     }

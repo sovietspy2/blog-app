@@ -13,19 +13,12 @@ type Query{
 
 type Mutation {
      #Update the user address
-    #updateUserAddress(userId:Int,address:String): User
     createUser(name:String!,email:String!): User
     createPost(tile: String!, text: String, user: UserInput, blog: BlogInput): Post
     createComment(text: String, user: UserInput, post: PostInput): Comment
     uploadFile(files: [Upload!]!): Boolean
 }
 
-#type Comment {
-#    id: ID!,
-#    userId: Int,
-#    postId: Int,
-#    text: String
-#}
 
 type Post {
     id: ID!
@@ -33,7 +26,12 @@ type Post {
     text: String,
     user: User,
     comments: [Comment],
-    blog: Blog
+    blog: Blog,
+    files: [File]
+}
+
+type File {
+    filename: String
 }
 
 type Blog {

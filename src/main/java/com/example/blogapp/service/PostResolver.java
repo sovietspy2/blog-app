@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Part;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
