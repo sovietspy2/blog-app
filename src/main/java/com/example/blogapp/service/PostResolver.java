@@ -1,18 +1,20 @@
 package com.example.blogapp.service;
 
 import com.example.blogapp.model.Blog;
+import com.example.blogapp.model.FileUpload;
 import com.example.blogapp.model.Post;
 import com.example.blogapp.model.User;
+import com.example.blogapp.repository.FileUploadRepository;
 import com.example.blogapp.repository.PostRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+import org.apache.commons.io.IOUtils;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import javax.servlet.http.Part;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -20,6 +22,8 @@ import java.util.List;
 public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
 
     private final PostRepository postRepository;
+
+    private final FileUploadRepository fileUploadRepository;
 
     public List<Post> getPosts(Integer page, Integer pageSize) {
         return postRepository.findAll(PageRequest.of(page, pageSize)).getContent();
@@ -36,6 +40,29 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
                 .blog(blog)
                 .user(user)
                 .build());
+    }
+
+    public boolean uploadFile(List<Part> files) throws IOException {
+
+        fileUploadRepository.findById(1);
+
+        Post testPost = postRepository.findById(1).get();
+
+        for (Part part: files) {
+
+            FileUpload fileUpload = FileUpload.builder()
+                    .filename("test.txt")
+                    .post(testPost)
+                    .ctype(part.getContentType())
+                    .content(IOUtils.toByteArray(part.getInputStream()))
+                    .build();
+
+            fileUploadRepository.save(fileUpload);
+
+
+        }
+
+        return true;
     }
 
 

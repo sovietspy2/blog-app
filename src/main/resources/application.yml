@@ -37,3 +37,6 @@ graphiql:
 
     headers:
         Authorization: "Bearer <your-token>"
+
+
+#https://github.comcom/graphql-java/java-dataloader:

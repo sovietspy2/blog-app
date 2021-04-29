@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,7 +22,7 @@ import java.util.List;
         attributeNodes = {
             @NamedAttributeNode("comments"),
             @NamedAttributeNode("user"),
-            @NamedAttributeNode("blog")
+            @NamedAttributeNode("blog"),
         }
 )
 public class Post {
@@ -34,15 +35,19 @@ public class Post {
 
     private String text;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
     @Fetch(FetchMode.JOIN)
     private List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blog_id")
     private Blog blog;
+
+    @OneToMany(mappedBy = "post")
+    @Fetch(FetchMode.SELECT)
+    private List<FileUpload> files;
 }
