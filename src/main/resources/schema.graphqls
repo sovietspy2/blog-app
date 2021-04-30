@@ -9,6 +9,7 @@ type Query{
     #findUserByName(name:String): User
     getPost(postId: Int): Post
     getPosts(page: Int!, pageSize: Int!): [Post]
+    getComments: [Comment]
 }
 
 type Mutation {

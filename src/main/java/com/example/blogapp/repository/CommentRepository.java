@@ -15,4 +15,6 @@ public interface CommentRepository extends CrudRepository<Comment,Integer> {
     public List<Comment> findAllByPost(Post post);
 
     List<Comment> findManyByPost(Post post);
+
+    List<Comment> findAll();
 }

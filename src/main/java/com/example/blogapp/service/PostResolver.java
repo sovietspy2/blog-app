@@ -1,24 +1,15 @@
 package com.example.blogapp.service;
 
 import com.example.blogapp.model.Blog;
-import com.example.blogapp.model.FileUpload;
 import com.example.blogapp.model.Post;
 import com.example.blogapp.model.User;
-import com.example.blogapp.repository.FileUploadRepository;
 import com.example.blogapp.repository.PostRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.kickstart.tools.GraphQLQueryResolver;
-import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.io.IOUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.Part;
-import javax.transaction.Transactional;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
 @Service
