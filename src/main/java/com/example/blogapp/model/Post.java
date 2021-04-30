@@ -15,14 +15,6 @@ import java.util.Set;
 @Table(name = "post")
 @Builder
 @AllArgsConstructor
-@NamedEntityGraph(name = "Post.graph",
-        attributeNodes = {
-            @NamedAttributeNode("comments"),
-            @NamedAttributeNode("user"),
-            @NamedAttributeNode("blog"),
-            @NamedAttributeNode("files"),
-        }
-)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
 
