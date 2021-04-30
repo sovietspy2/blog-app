@@ -32,13 +32,13 @@ public class Post {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
-    private Set<Comment> comments;
+    private List<Comment> comments;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "blog_id")
     private Blog blog;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
-    private Set<FileUpload> files;
+    private List<FileUpload> files;
 
 }

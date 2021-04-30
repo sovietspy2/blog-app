@@ -9,14 +9,11 @@ import graphql.kickstart.tools.GraphQLResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
-public class PostResolverHelper implements GraphQLResolver<Post> {
+public class PostFieldsResolver implements GraphQLResolver<Post> {
 
     private final UserRepository userRepository;
 

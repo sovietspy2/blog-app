@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Part;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -36,8 +37,12 @@ public class FileUploadResolver implements GraphQLMutationResolver {
 
         for (Part part: files) {
 
-            byte[] bytes = IOUtils.toByteArray(part.getInputStream());
+            // error handling
+
+            InputStream is = part.getInputStream();
+            byte[] bytes = IOUtils.toByteArray(is);
             String encoded = Base64.getEncoder().encodeToString(bytes);
+            is.close();
 
             FileUpload fileUpload = FileUpload.builder()
                     .filename(part.getSubmittedFileName())
