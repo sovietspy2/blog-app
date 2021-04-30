@@ -9,12 +9,14 @@ import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import org.dataloader.BatchLoader;
 import org.dataloader.BatchLoaderEnvironment;
 import org.dataloader.DataLoader;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @Component
 @RequiredArgsConstructor
@@ -32,25 +34,19 @@ public class CommentResolver implements GraphQLQueryResolver, GraphQLMutationRes
     public List<Comment> getComments(DataFetchingEnvironment env) {
 
         env.getDataLoaderRegistry().register(POST_DATA_LOADER,
-                DataLoader.newMappedDataLoader((Set<Integer> Post, BatchLoaderEnvironment environment) ->
-                        CompletableFuture.supplyAsync(() -> getDataLoaderData( (Map) environment.getKeyContexts()))
-
-                ));
+               DataLoader.newDataLoader(postBatchLoader));
 
         return commentRepository.findAll();
     }
 
-
-    private Map getDataLoaderData(Map<Integer, Comment> input) {
-        Map<Integer, Post> map = new HashMap<Integer, Post>();
-
-        input.forEach((key, value) -> {
-            Post post = postRepository.findById(key).get();
-            map.put(key, post);
-        });
-
-        return map;
-    }
+    private final BatchLoader<Integer, Post> postBatchLoader = new BatchLoader<>() {
+        @Override
+        public CompletionStage<List<Post>> load(List<Integer> postIds) {
+            return CompletableFuture.supplyAsync(() -> {
+                return postRepository.findAllByIdIn(postIds);
+            });
+        }
+    };
 
 
     public Comment createComment(String text, User user, Post post) {

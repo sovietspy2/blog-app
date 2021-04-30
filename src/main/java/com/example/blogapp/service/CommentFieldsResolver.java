@@ -29,7 +29,7 @@ public class CommentFieldsResolver implements GraphQLResolver<Comment> {
 
     public CompletableFuture<Post> getPost(Comment comment, DataFetchingEnvironment env) {
         DataLoader<Integer, Post> dataLoader = env.getDataLoader(CommentResolver.POST_DATA_LOADER);
-        return dataLoader.load(comment.getPost().getId(), comment);
+        return dataLoader.load(comment.getPost().getId());
     }
 
 

@@ -20,6 +20,6 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Integer
 
     Optional<Post> findByComments(Comment comment);
 
-    //List<Post> findAllById(List<Integer> keys);
+    List<Post> findAllByIdIn(List<Integer> keys);
 
 }
