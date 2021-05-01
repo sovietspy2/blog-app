@@ -24,7 +24,7 @@ public class FileUpload {
 
     private String filename;
 
-    String content;
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="post_id")

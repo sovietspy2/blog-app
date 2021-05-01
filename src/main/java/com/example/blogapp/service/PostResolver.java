@@ -1,16 +1,30 @@
 package com.example.blogapp.service;
 
 import com.example.blogapp.model.Blog;
+import com.example.blogapp.model.FileUpload;
 import com.example.blogapp.model.Post;
 import com.example.blogapp.model.User;
+import com.example.blogapp.repository.BlogRepository;
+import com.example.blogapp.repository.FileUploadRepository;
 import com.example.blogapp.repository.PostRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.kickstart.tools.GraphQLQueryResolver;
+import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import org.dataloader.BatchLoader;
+import org.dataloader.BatchLoaderEnvironment;
+import org.dataloader.DataLoader;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,8 +32,63 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
 
     private final PostRepository postRepository;
 
-    public List<Post> getPosts(Integer page, Integer pageSize) {
+    private final BlogRepository blogRepository;
+
+    private final FileUploadRepository fileUploadRepository;
+
+    public static final String BLOG_DATA_LOADER = "blog-data-loader";
+
+    public static final String FILE_UPLOAD_DATA_LOADER = "file-upload-data-loader";
+
+
+    public List<Post> getPosts(Integer page, Integer pageSize, DataFetchingEnvironment environment) {
+
+        environment.getDataLoaderRegistry().register(
+                PostResolver.BLOG_DATA_LOADER,
+                DataLoader.newDataLoader(new BatchLoader<Integer, Blog>() {
+                    @Override
+                    public CompletionStage<List<Blog>> load(List<Integer> blogIds) {
+                        return CompletableFuture.supplyAsync(() -> {
+                            return blogRepository.findAllByIdIn(blogIds);
+                        });
+                    }
+                }));
+
+
+        environment.getDataLoaderRegistry().register(
+                PostResolver.FILE_UPLOAD_DATA_LOADER,
+                DataLoader.newMappedDataLoader((Set<Integer> ids, BatchLoaderEnvironment env) ->
+                        CompletableFuture.supplyAsync(() -> {
+                            return loadFileUploadMap((Map) env.getKeyContexts());
+                        }))
+        );
+
         return postRepository.findAll(PageRequest.of(page, pageSize)).getContent();
+    }
+
+//    private DataLoader getFiles() {
+//        return DataLoader.newMappedDataLoader((Set<Integer> ids, BatchLoaderEnvironment environment) ->
+//             CompletableFuture.supplyAsync(() -> {
+//            return loadFileUploadMap((Map) environment.getKeyContexts());
+//        }));
+//    }
+
+
+    public Map<Integer, List<FileUpload>> loadFileUploadMap(Map<Integer, Post> keyContext) {
+
+        List<Integer> keys = new ArrayList<>(keyContext
+                .keySet());
+
+        List<FileUpload> fileUploads = fileUploadRepository.findAllByPostIdIn(keys);
+
+        Map<Integer, List<FileUpload>> data = keys.stream().map(key -> {
+            Pair<Integer, List<FileUpload>> pair = Pair.of(key, fileUploads.stream()
+                    .filter(item -> item.getPost().getId().equals(key))
+                    .collect(Collectors.toList()));
+            return pair;
+        }).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+        return data;
+
     }
 
     public Post getPost(Integer postId) {
