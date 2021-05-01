@@ -1,10 +1,8 @@
 package com.example.blogapp.service;
 
-import com.example.blogapp.model.Blog;
-import com.example.blogapp.model.FileUpload;
-import com.example.blogapp.model.Post;
-import com.example.blogapp.model.User;
+import com.example.blogapp.model.*;
 import com.example.blogapp.repository.BlogRepository;
+import com.example.blogapp.repository.CommentRepository;
 import com.example.blogapp.repository.FileUploadRepository;
 import com.example.blogapp.repository.PostRepository;
 import graphql.kickstart.tools.GraphQLMutationResolver;
@@ -18,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +35,13 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
 
     private final FileUploadRepository fileUploadRepository;
 
+    private final CommentRepository commentRepository;
+
     public static final String BLOG_DATA_LOADER = "blog-data-loader";
 
     public static final String FILE_UPLOAD_DATA_LOADER = "file-upload-data-loader";
 
+    public static final String COMMENTS_DATA_LOADER = "comments-data-loader";
 
     public List<Post> getPosts(Integer page, Integer pageSize, DataFetchingEnvironment environment) {
 
@@ -63,6 +65,14 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
                         }))
         );
 
+        environment.getDataLoaderRegistry().register(
+                PostResolver.COMMENTS_DATA_LOADER,
+                DataLoader.newMappedDataLoader((Set<Integer> ids, BatchLoaderEnvironment env) ->
+                        CompletableFuture.supplyAsync(() -> {
+                            return loadComments((Map) env.getKeyContexts());
+                        }))
+        );
+
         return postRepository.findAll(PageRequest.of(page, pageSize)).getContent();
     }
 
@@ -72,6 +82,24 @@ public class PostResolver implements GraphQLQueryResolver, GraphQLMutationResolv
 //            return loadFileUploadMap((Map) environment.getKeyContexts());
 //        }));
 //    }
+
+
+
+    public Map<Integer, List<Comment>> loadComments(Map<Integer, Post> keyContext) {
+
+        List<Integer> keys = new ArrayList<>(keyContext.keySet());
+
+        List<Comment> comments = commentRepository.findAllByPostIdIn(keys);
+
+        Map<Integer, List<Comment>> data = keys.stream().map(key -> {
+            Pair<Integer, List<Comment>> pair = Pair.of(key, comments.stream()
+                    .filter(item -> item.getPost().getId().equals(key))
+                    .collect(Collectors.toList()));
+            return pair;
+        }).collect(Collectors.toMap(Pair::getFirst, Pair::getSecond));
+        return data;
+
+    }
 
 
     public Map<Integer, List<FileUpload>> loadFileUploadMap(Map<Integer, Post> keyContext) {

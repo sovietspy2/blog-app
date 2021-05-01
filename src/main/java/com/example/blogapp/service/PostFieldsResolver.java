@@ -30,9 +30,9 @@ public class PostFieldsResolver implements GraphQLResolver<Post> {
         return userRepository.findByPostsContains(post).orElseGet(null);
     }
 
-    public List<Comment> getComments(Post post) {
-        return commentRepository.findAllByPost(post);
-    }
+//    public List<Comment> getComments(Post post) {
+//        return commentRepository.findAllByPost(post);
+//    }
 
 //    public List<FileUpload> getFiles(Post post) {
 //        return fileUploadRepository.findAllByPost(post);
@@ -49,6 +49,11 @@ public class PostFieldsResolver implements GraphQLResolver<Post> {
 
     public CompletableFuture<List<FileUpload>> getFiles(Post post, DataFetchingEnvironment env) {
         DataLoader<Integer, List<FileUpload>> dataLoader = env.getDataLoader(PostResolver.FILE_UPLOAD_DATA_LOADER);
+        return dataLoader.load(post.getId(), post);
+    }
+
+    public CompletableFuture<List<Comment>> getComments(Post post, DataFetchingEnvironment env) {
+        DataLoader<Integer, List<Comment>> dataLoader = env.getDataLoader(PostResolver.COMMENTS_DATA_LOADER);
         return dataLoader.load(post.getId(), post);
     }
 

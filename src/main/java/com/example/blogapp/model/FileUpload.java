@@ -24,6 +24,7 @@ public class FileUpload {
 
     private String filename;
 
+    @Basic(fetch = FetchType.LAZY)
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

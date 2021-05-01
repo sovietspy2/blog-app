@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.hibernate:hibernate-gradle-plugin:5.4.31.Final"
+    }
+}
+
 plugins {
     id 'org.springframework.boot' version '2.3.10.RELEASE'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -18,7 +28,10 @@ repositories {
     mavenCentral()
 }
 
+
+
 dependencies {
+    implementation 'org.hibernate:hibernate-core:5.4.31.Final'
     implementation 'com.graphql-java-kickstart:graphql-spring-boot-starter:11.0.0'
     // to embed GraphiQL tool
     runtimeOnly 'com.graphql-java-kickstart:graphiql-spring-boot-starter:11.0.0'
@@ -39,4 +52,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+apply plugin: 'org.hibernate.orm'
+
+hibernate {
+    enhance {
+        enableLazyInitialization= true
+        enableDirtyTracking = true
+        enableAssociationManagement = true
+    }
 }
