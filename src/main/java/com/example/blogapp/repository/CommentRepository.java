@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface CommentRepository extends CrudRepository<Comment,Integer> {
 
@@ -23,6 +24,6 @@ public interface CommentRepository extends CrudRepository<Comment,Integer> {
 
 
     @Query("SELECT F FROM Comment F WHERE F.post.id IN  :ids")
-    List<Comment> findAllByPostIdIn(@Param("ids") List<Integer> ids);
+    List<Comment> findAllByPostIdIn(@Param("ids") Set<Integer> ids);
 
 }

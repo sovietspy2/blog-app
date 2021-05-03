@@ -20,6 +20,6 @@ public class Blog {
 
     private String name;
 
-    @OneToMany(mappedBy = "blog")
+    @OneToMany(mappedBy = "blog", fetch = FetchType.LAZY)
     private List<Post> posts;
 }

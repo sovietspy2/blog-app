@@ -26,8 +26,6 @@ public class CommentResolver implements GraphQLQueryResolver, GraphQLMutationRes
 
     private final PostRepository postRepository;
 
-    private final CommentDataLoader commentDataLoader;
-
     public static final String POST_DATA_LOADER = "post-data-loader";
 
 

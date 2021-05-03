@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Set;
 
 public interface FileUploadRepository extends CrudRepository<FileUpload, Integer> {
     List<FileUpload> findAllByPost(Post post);
@@ -16,7 +17,7 @@ public interface FileUploadRepository extends CrudRepository<FileUpload, Integer
     //List<FileUpload> findAllByPostIdIn(List<Integer> ids);
 
     @Query("SELECT F FROM FileUpload F WHERE F.post.id IN  :ids")
-    List<FileUpload> findAllByPostIdIn(@Param("ids") List<Integer> ids);
+    List<FileUpload> findAllByPostIdIn(@Param("ids") Set<Integer> ids);
 
 
 

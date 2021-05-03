@@ -15,7 +15,7 @@ type Query{
 type Mutation {
      #Update the user address
     createUser(name:String!,email:String!): User
-    createPost(tile: String!, text: String, user: UserInput, blog: BlogInput): Post
+    createPost(tile: String!, text: String, userId: Int!, blogId: Int!): Post
     createComment(text: String, user: UserInput, post: PostInput): Comment
     uploadFile(files: [Upload!]!, postId: Int!): Boolean
 }
