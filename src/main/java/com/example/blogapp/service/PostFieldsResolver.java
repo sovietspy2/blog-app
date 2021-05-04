@@ -29,15 +29,15 @@ public class PostFieldsResolver implements GraphQLResolver<Post> {
 //    public User getUser(Post post) {
 //        return userRepository.findByPostsContains(post).orElseGet(null);
 //    }
-
+//
 //    public List<Comment> getComments(Post post) {
 //        return commentRepository.findAllByPost(post);
 //    }
-
+//
 //    public List<FileUpload> getFiles(Post post) {
 //        return fileUploadRepository.findAllByPost(post);
 //    }
-
+//
 //    public Blog getBlog(Post post) {
 //        return blogRepository.findByPostsContains(post).orElseGet(Blog::new);
 //    }

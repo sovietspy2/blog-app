@@ -14,6 +14,9 @@ import java.util.List;
 @Table(name = "bloguser")
 @Builder
 @AllArgsConstructor
+@NamedEntityGraph(name = "User.posts",
+        attributeNodes = @NamedAttributeNode("posts")
+)
 public class User {
 
     @Id

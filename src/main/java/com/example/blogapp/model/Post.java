@@ -1,6 +1,8 @@
 package com.example.blogapp.model;
 
 import lombok.*;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,14 +25,16 @@ public class Post {
 
     private String text;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional=false)
     @JoinColumn(name = "user_id")
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
     private List<Comment> comments;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional=false)
+    @LazyToOne(LazyToOneOption.NO_PROXY)
     @JoinColumn(name = "blog_id")
     private Blog blog;
 

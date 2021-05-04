@@ -73,19 +73,25 @@ public class PostResolverService {
     }
 
     private Map<Integer, User> loadUsers(Set<Integer> postIds) {
-        List<User> users = userRepository.findAllByPostIdIn(postIds);
+        //List<User> users = userRepository.findAllByPostsIdIn(postIds);
 
-        Map<Integer, User> map = new HashMap<>();
+//        Map<Integer, User> map = new HashMap<>();
+//
+//        postIds.forEach(postId -> {
+//                    Post post = new Post();
+//                    post.setId(postId);
+//                    User user = users.stream().filter(i -> i.getPosts().contains(post)).findAny().get();
+//                    map.put(postId, user);
+//                }
+//        );
 
-        postIds.forEach(postId -> {
-                    Post post = new Post();
-                    post.setId(postId);
-                    User user = users.stream().filter(i -> i.getPosts().contains(post)).findAny().get();
-                    map.put(postId, user);
-                }
-        );
+        //return map;
 
-        return map;
+        return userRepository.findAllByPostsIdIn(postIds)
+                .stream()
+                .map(User::getPosts)
+                .flatMap(List::stream)
+                .collect(Collectors.toMap(Post::getId, Post::getUser));
     }
 
 
