@@ -3,7 +3,7 @@ logging:
         org:
             springframework: DEBUG
 server:
-    port: 9999
+    port: 8080
 spring:
     datasource:
         password: ${password}
