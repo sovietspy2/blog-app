@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blogapp
+  template:
+    metadata:
+      labels:
+        app: blogapp
+    spec:
+      containers:
+        - name: app
+          image: sovietspy2/blogapp:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: url
+              value: "jdbc:postgresql://postgres:5432/postgres"
+            - name: user
+              value: "wortex"
+            - name: password
+              value: "1234"
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blogapp
+spec:
+  selector:
+    app: blogapp
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
