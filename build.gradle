@@ -31,7 +31,6 @@ repositories {
 
 
 dependencies {
-    implementation 'org.hibernate:hibernate-core:5.4.31.Final'
     implementation 'com.graphql-java-kickstart:graphql-spring-boot-starter:11.0.0'
     // to embed GraphiQL tool
     runtimeOnly 'com.graphql-java-kickstart:graphiql-spring-boot-starter:11.0.0'
@@ -61,5 +60,6 @@ hibernate {
         enableLazyInitialization= true
         enableDirtyTracking = true
         enableAssociationManagement = true
+        enableExtendedEnhancement = false
     }
 }
