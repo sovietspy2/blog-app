@@ -19,11 +19,20 @@ spec:
             - containerPort: 8080
           env:
             - name: url
-              value: "jdbc:postgresql://postgres:5432/postgres"
+              valueFrom:
+                secretKeyRef:
+                  name: blogapp-secret
+                  key: url
             - name: user
-              value: "wortex"
+              valueFrom:
+                secretKeyRef:
+                  name: blogapp-secret
+                  key: user
             - name: password
-              value: "1234"
+              valueFrom:
+                secretKeyRef:
+                  name: blogapp-secret
+                  key: password
           imagePullPolicy: Always
 ---
 apiVersion: v1
