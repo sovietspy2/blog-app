@@ -1,0 +1,5 @@
+resources:
+  - blogapp-secret.yaml
+  - database.yaml
+  - blogapp.yaml
+  - ingress.yaml

@@ -44,5 +44,6 @@ spec:
     app: blogapp
   ports:
     - port: 80
+      name: myport2
       targetPort: 8080
   type: LoadBalancer

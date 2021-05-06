@@ -1,0 +1,9 @@
+bases:
+  - ../../base
+
+patchesStrategicMerge:
+  - blogapp-patch.yaml
+
+namespace: dev
+
+namePrefix: dev-

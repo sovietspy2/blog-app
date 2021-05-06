@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogapp
+spec:
+  replicas: 1
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blogapp-ingress
+spec:
+  rules:
+    - host: blogapp.local
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: blogapp-secret
+data:
+  url: amRiYzpwb3N0Z3Jlc3FsOi8vZGV2LXBvc3RncmVzOjU0MzIvcG9zdGdyZXM=

@@ -1,0 +1,9 @@
+bases:
+  - ../../base
+
+namePrefix: tst-
+
+namespace: tst
+
+patchesStrategicMerge:
+  - blogapp-patch.yaml
