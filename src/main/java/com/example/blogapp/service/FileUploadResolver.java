@@ -38,6 +38,8 @@ public class FileUploadResolver implements GraphQLMutationResolver {
         for (Part part: files) {
 
             // error handling
+            log.info("this is info");
+            log.debug("this is debug");
 
             InputStream is = part.getInputStream();
             byte[] bytes = IOUtils.toByteArray(is);

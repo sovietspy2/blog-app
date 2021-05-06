@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+
+    <turboFilter class="ch.qos.logback.classic.turbo.DynamicThresholdFilter">
+        <Key>debugRequest</Key>
+        <DefaultThreshold>INFO</DefaultThreshold>
+        <OnHigherOrEqual>ACCEPT</OnHigherOrEqual>
+        <OnLower>NEUTRAL</OnLower>
+        <MDCValueLevelPair>
+            <value>debug</value>
+            <level>DEBUG</level>
+        </MDCValueLevelPair>
+        <MDCValueLevelPair>
+            <value>trace</value>
+            <level>TRACE</level>
+        </MDCValueLevelPair>
+    </turboFilter>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="Console" />
+    </root>
+
+    <!-- Log everything at the TRACE level -->
+<!--    <logger name="com.example" level="trace" additivity="false">-->
+<!--        <appender-ref ref="Console" />-->
+<!--    </logger>-->
+</configuration>
+
