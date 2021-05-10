@@ -1,7 +1,6 @@
 package com.example.blogapp.repository;
 
 import com.example.blogapp.model.Blog;
-import com.example.blogapp.model.Comment;
 import com.example.blogapp.model.Post;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

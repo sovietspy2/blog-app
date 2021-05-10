@@ -15,6 +15,11 @@ spring:
             ddl-auto: validate
         properties:
             hibernate:
+                cache:
+                    uri: hazelcast.xml
+                    provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+                    use_query_cache: true
+                    use_second_level_cache: true
                 format_sql: true
                 enable_lazy_load_no_trans: true
         show-sql: true

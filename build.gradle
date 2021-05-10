@@ -47,6 +47,8 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
+    implementation group: 'org.hibernate', name: 'hibernate-jcache', version: '5.4.31.Final'
+    implementation group: 'com.hazelcast', name: 'hazelcast', version: '4.2'
 }
 
 test {
@@ -63,3 +65,5 @@ hibernate {
         enableExtendedEnhancement = false
     }
 }
+
+
