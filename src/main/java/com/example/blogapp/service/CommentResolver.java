@@ -9,6 +9,7 @@ import graphql.kickstart.tools.GraphQLMutationResolver;
 import graphql.kickstart.tools.GraphQLQueryResolver;
 import graphql.schema.DataFetchingEnvironment;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.dataloader.BatchLoader;
 import org.dataloader.BatchLoaderEnvironment;
 import org.dataloader.DataLoader;
@@ -20,6 +21,7 @@ import java.util.concurrent.CompletionStage;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CommentResolver implements GraphQLQueryResolver, GraphQLMutationResolver {
 
     private final CommentRepository commentRepository;
@@ -30,7 +32,6 @@ public class CommentResolver implements GraphQLQueryResolver, GraphQLMutationRes
 
 
     public List<Comment> getComments(DataFetchingEnvironment env) {
-
         env.getDataLoaderRegistry().register(POST_DATA_LOADER,
                DataLoader.newDataLoader(postBatchLoader));
 

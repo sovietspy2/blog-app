@@ -16,6 +16,9 @@ import java.io.InputStream;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +29,18 @@ public class FileUploadResolver implements GraphQLMutationResolver {
 
     private final FileUploadRepository fileUploadRepository;
 
+    private final SomeOtherApi someOtherApi;
+
+    final ExecutorService executorService = Executors.newFixedThreadPool(8);
+
     public boolean uploadFile(List<Part> files, Integer postId) throws Exception {
+
+        CompletableFuture<String> message = someOtherApi.getImportantData();
+
+        log.info("Message in COMMENTSERVICE: "+message.toString());
+
+        CompletableFuture<String> value = process();
+
 
         Optional<Post> post = postRepository.findById(postId);
 
@@ -58,4 +72,14 @@ public class FileUploadResolver implements GraphQLMutationResolver {
 
         return true;
     }
+
+    private CompletableFuture<String> process() {
+        return CompletableFuture.supplyAsync(() -> {
+            log.info(" --------------");
+            log.debug("DEBUG MESSAGE: " + "GENERAL KENOBI");
+            log.info(" -------------");
+            return "Hello There!";
+        }, executorService);
+    }
+
 }
