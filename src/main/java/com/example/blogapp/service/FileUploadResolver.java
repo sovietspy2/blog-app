@@ -39,7 +39,7 @@ public class FileUploadResolver implements GraphQLMutationResolver {
 
         log.info("Message in COMMENTSERVICE: "+message.toString());
 
-        CompletableFuture<String> value = process();
+        CompletableFuture<String> message2 = process();
 
 
         Optional<Post> post = postRepository.findById(postId);
@@ -69,6 +69,9 @@ public class FileUploadResolver implements GraphQLMutationResolver {
 
             fileUploadRepository.save(fileUpload);
         }
+
+
+        CompletableFuture.allOf(message, message2);
 
         return true;
     }
